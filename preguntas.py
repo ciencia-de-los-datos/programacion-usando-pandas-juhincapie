@@ -22,10 +22,10 @@ def pregunta_01():
     40
 
     """
-    tbl0 = pd.read_csv("tbl0.tsv", sep="\t")
+
     x=len(tbl0)
     return x
-    
+
 
 
 def pregunta_02():
@@ -36,7 +36,8 @@ def pregunta_02():
     4
 
     """
-    return
+    x=len(tbl0.columns)
+    return x
 
 
 def pregunta_03():
@@ -53,7 +54,8 @@ def pregunta_03():
     Name: _c1, dtype: int64
 
     """
-    return
+    x=tbl0.groupby('_c1').size()
+    return x
 
 
 def pregunta_04():
