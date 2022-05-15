@@ -22,7 +22,10 @@ def pregunta_01():
     40
 
     """
-    return
+    tbl0 = pd.read_csv("tbl0.tsv", sep="\t")
+    x=len(tbl0)
+    return x
+    
 
 
 def pregunta_02():
