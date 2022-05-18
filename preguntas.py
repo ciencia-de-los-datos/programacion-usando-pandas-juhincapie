@@ -189,9 +189,7 @@ def pregunta_10():
             result[fila["_c1"]]=[fila["_c2"]]
 
     result=[(fila["_c2"],':'.join(fila["_c1"])) for fila["_c2"], fila["_c1"] in result.items()]
-    result.sort()
-    result=dict(result)
-    result = pd.DataFrame([[key, result[key]] for key in result.keys()], columns=['_c1', '_c2']).set_index('_c1')
+    result = pd.DataFrame([[a, b] for a,b in result], columns=['_c1', '_c2']).set_index('_c1')
     return result
 
 
@@ -211,7 +209,20 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    return
+    x=tbl1.copy()[["_c0","_c4"]]
+    x["_c4"]=x["_c4"].str.lower()
+    x=x.sort_values(by=["_c0","_c4"],ascending=[True,True])
+    
+    result={}
+    for index , fila in x.iterrows():
+        df=fila["_c0"],fila["_c4"]
+        if fila["_c0"] in result.keys():
+            result[fila["_c0"]].append(fila["_c4"])
+        else:
+            result[fila["_c0"]]=[fila["_c4"]]
+    result=[(fila["_c4"],','.join(fila["_c0"])) for fila["_c4"], fila["_c0"] in result.items()]
+    result = pd.DataFrame([[a, b] for a,b in result], columns=['_c0', '_c1'])
+    return result
 
 
 def pregunta_12():
@@ -229,7 +240,22 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
-    return
+    x=tbl2.copy()
+    x["_c5a"]=x["_c5a"].str.lower()
+    x["_c5b"]=x["_c5b"].astype(str)
+    x=x.sort_values(by=["_c0","_c5a"],ascending=[True,True])
+    x["_c5"]=x["_c5a"]+":"+x["_c5b"]
+    
+    result={}
+    for index , fila in x.iterrows():
+        df=fila["_c0"],fila["_c5"]
+        if fila["_c0"] in result.keys():
+            result[fila["_c0"]].append(fila["_c5"])
+        else:
+            result[fila["_c0"]]=[fila["_c5"]]
+    result=[(fila["_c5"],','.join(fila["_c0"])) for fila["_c5"], fila["_c0"] in result.items()]
+    result = pd.DataFrame([[a, b] for a,b in result], columns=['_c0', '_c5'])
+    return result
 
 
 def pregunta_13():
@@ -246,4 +272,7 @@ def pregunta_13():
     E    275
     Name: _c5b, dtype: int64
     """
-    return
+    file=pd.merge(tbl2[["_c0","_c5b"]],tbl0[["_c0","_c1"]],on="_c0",how="outer")
+    file=file.sort_values(by=["_c1"],ascending=[True])
+    file=file.groupby("_c1")["_c5b"].sum()
+    return file
