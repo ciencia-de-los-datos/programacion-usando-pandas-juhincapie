@@ -221,7 +221,7 @@ def pregunta_11():
         else:
             result[fila["_c0"]]=[fila["_c4"]]
     result=[(fila["_c4"],','.join(fila["_c0"])) for fila["_c4"], fila["_c0"] in result.items()]
-    result = pd.DataFrame([[a, b] for a,b in result], columns=['_c0', '_c1'])
+    result = pd.DataFrame([[a, b] for a,b in result], columns=['_c0', '_c4'])
     return result
 
 
