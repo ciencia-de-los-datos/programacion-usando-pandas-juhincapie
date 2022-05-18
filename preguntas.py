@@ -177,7 +177,22 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    return
+    x=tbl0.copy()[["_c1","_c2"]]
+    x["_c2"]=x["_c2"].astype(str)
+    x=x.sort_values(by=["_c1","_c2"],ascending=[True,True])
+    result={}
+    for index , fila in x.iterrows():
+        df=fila["_c1"],fila["_c2"]
+        if fila["_c1"] in result.keys():
+            result[fila["_c1"]].append(fila["_c2"])
+        else:
+            result[fila["_c1"]]=[fila["_c2"]]
+
+    result=[(fila["_c2"],':'.join(fila["_c1"])) for fila["_c2"], fila["_c1"] in result.items()]
+    result.sort()
+    result=dict(result)
+    result = pd.DataFrame([[key, result[key]] for key in result.keys()], columns=['_c1', '_c2']).set_index('_c1')
+    return result
 
 
 def pregunta_11():
